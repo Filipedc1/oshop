@@ -1,3 +1,4 @@
+import { AdminAuthGuard } from './admin-auth-guard.service';
 import { AuthGuard } from './auth-guard.service';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './login/login.component';
@@ -54,7 +55,8 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
   ],
   providers: [
     UserService,
-    AuthGuard
+    AuthGuard,
+    AdminAuthGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -23,8 +23,7 @@ export class LoginComponent implements OnInit {
     this._userService.login(credentials)
       .subscribe(result => {
         console.log('login success');
-        localStorage.setItem('token', result['token']);
-        this._userService.isLoggedIn = true;
+        this._userService.finishLogin(result['token']);
         this._router.navigate(['/']);
       },
       err => { 
