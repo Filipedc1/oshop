@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean;
 
   constructor(
-    private _userService: UserService, 
+    public _userService: UserService, 
     private _router: Router) { }
 
   ngOnInit() {

@@ -8,15 +8,16 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  isLoggedIn: boolean = false;
-  username: string;
 
-  constructor() { }
+  constructor(public _userService: UserService) { 
+  }
 
   ngOnInit() {
+
   }
 
   logout() {
+    this._userService.logout();
     localStorage.removeItem('token');
     console.log('logout success');
   }
