@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  user$: Observable<Object>;
+  public user$: Observable<Object>;
+  isLoggedIn: boolean = false;
   private _loginUrl = 'https://localhost:44356/api/user/login';
 
   constructor(private _http: HttpClient) { }
@@ -22,6 +23,7 @@ export class UserService {
 
   logout() {
     this.user$ = null;
+    this.isLoggedIn = false;
   }
 
     //   register(n: number) {
