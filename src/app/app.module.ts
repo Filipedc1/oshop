@@ -1,3 +1,4 @@
+import { ProductService } from './product.service';
 import { CategoryService } from './category.service';
 import { AdminAuthGuard } from './admin-auth-guard.service';
 import { AuthGuard } from './auth-guard.service';
@@ -9,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CustomFormsModule } from 'ng2-validation'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +46,7 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
     AppRoutingModule,
     NgbModule,
     FormsModule,
+    CustomFormsModule,
     HttpClientModule
     // RouterModule.forRoot([
     //   { path: '', component: HomeComponent },
@@ -60,7 +63,8 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
     UserService,
     AuthGuard,
     AdminAuthGuard,
-    CategoryService
+    CategoryService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
