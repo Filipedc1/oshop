@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from './../../product.service';
 import { CategoryService } from './../../category.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-form',
@@ -11,13 +12,22 @@ import { Observable } from 'rxjs';
 })
 export class ProductFormComponent implements OnInit {
   categories$;
+  product = {};
 
   constructor(
     private _categoryService: CategoryService, 
     private _productService: ProductService,
-    private _router: Router) 
+    private _router: Router,
+    private _route: ActivatedRoute) 
   { 
     this.categories$ = _categoryService.getCategories();
+
+    let productId = this._route.snapshot.paramMap.get('productId');
+    if (productId) {
+      this._productService.getProduct(productId)
+        .pipe(take(1)) // allows us to take only 1 value from an observable and it will automatically unsubscribe.
+        .subscribe(p => this.product = p);
+    }
   }
 
   ngOnInit() {

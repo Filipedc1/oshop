@@ -11,14 +11,6 @@ export class AdminProductsComponent implements OnInit {
 
   constructor(private _productService: ProductService) { 
     this.products$ = this._productService.getAll();
-    //   .subscribe(result => {
-    //     console.log('get products success');
-    //     this.products$ = _productService.products$;
-    //   },
-    //   err => { 
-    //     console.log(err);
-    //   }
-    // );
   }
 
   ngOnInit() {

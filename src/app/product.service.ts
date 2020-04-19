@@ -14,6 +14,10 @@ export class ProductService {
     return this._http.get(this._baseUrl);
   }
 
+  getProduct(productId) {
+    return this._http.get(`${this._baseUrl}/${productId}`);
+  }
+
   create(product) {
     return this._http.post(this._baseUrl, product);
   }
