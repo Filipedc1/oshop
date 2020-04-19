@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ProductService } from './../../product.service';
 import { CategoryService } from './../../category.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,11 @@ import { Observable } from 'rxjs';
 export class ProductFormComponent implements OnInit {
   categories$;
 
-  constructor(_categoryService: CategoryService, private _productService: ProductService) { 
+  constructor(
+    private _categoryService: CategoryService, 
+    private _productService: ProductService,
+    private _router: Router) 
+  { 
     this.categories$ = _categoryService.getCategories();
   }
 
@@ -22,7 +27,8 @@ export class ProductFormComponent implements OnInit {
     console.log(product);
     this._productService.create(product)
       .subscribe(result => {
-        console.log('create success');
+        console.log('create product success');
+        this._router.navigate(['/admin/products']);
       },
       err => { 
         console.log(err);
