@@ -1,3 +1,4 @@
+import { IProduct } from './interfaces/iproduct';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,7 +12,7 @@ export class ProductService {
   constructor(private _http: HttpClient) { }
 
   getAll() {
-    return this._http.get(this._baseUrl);
+    return this._http.get<IProduct[]>(this._baseUrl);
   }
 
   getProduct(productId) {
@@ -20,5 +21,13 @@ export class ProductService {
 
   create(product) {
     return this._http.post(this._baseUrl, product);
+  }
+ 
+  update(productId, product) {
+    return this._http.put(`${this._baseUrl}/${productId}`, product);
+  }
+
+  delete(productId) {
+    return this._http.delete(`${this._baseUrl}/${productId}`);
   }
 }
