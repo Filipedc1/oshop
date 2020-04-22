@@ -3,5 +3,5 @@ export interface IProduct {
     name: string;
     imageUrl: string;
     price: number;
-    category: number;
+    categoryId: number;
 }
