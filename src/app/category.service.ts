@@ -10,7 +10,7 @@ export class CategoryService {
 
   constructor(private _http: HttpClient) { }
 
-  getCategories() {
+  getAll() {
     return this._http.get(this._baseUrl);
   }
 }
