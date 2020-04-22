@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
     private _router: Router) { }
 
   ngOnInit() {
+
   }
 
   login(credentials) {
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
         this._router.navigate(['/']);
       },
       err => { 
+        console.log('ERROR');
         console.log(err);
         this.invalidLogin = true;
       }

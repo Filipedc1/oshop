@@ -7,7 +7,7 @@ import * as jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class UserService {
-  public user$: Observable<Object>;
+  public userName: string;
   public isLoggedIn: boolean = false;
   public isAdmin: boolean = false;
 
@@ -15,13 +15,8 @@ export class UserService {
 
   constructor(private _http: HttpClient) { }
 
-  // login(credentials) {
-  //     return this._http.post(this._loginUrl, credentials);
-  // }
-
   login(credentials) {
-      this.user$ = this._http.post(this._loginUrl, credentials);
-      return this.user$;
+      return this._http.post(this._loginUrl, credentials);
   }
 
   finishLogin(authToken) {
@@ -29,12 +24,25 @@ export class UserService {
     this.isLoggedIn = true;
 
     var decodedToken = jwt_decode(authToken); 
+    this.userName = decodedToken['username'];
+    console.log(decodedToken['username']);
     this.isAdmin = decodedToken['role'] == 'Admin' ? true : false;
-    console.log('ROLE ' + decodedToken['role']);
+  }
+
+  isUserLoggedIn() {
+    let token = localStorage.getItem('token'); 
+
+    if (token) {
+      var decodedToken = jwt_decode(token);
+      this.userName = decodedToken['username'];
+      this.isAdmin = decodedToken['role'] == 'Admin' ? true : false;
+      this.isLoggedIn = true;
+    }
   }
 
   logout() {
-    this.user$ = null;
+    localStorage.removeItem('token');
+    this.userName = null;
     this.isLoggedIn = false;
   }
 
