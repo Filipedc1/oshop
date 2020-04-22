@@ -11,6 +11,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomFormsModule } from 'ng2-validation'
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
+// import { MatTableModule } from '@angular/material/table';
+// import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule, MatPaginatorModule, MatProgressSpinnerModule, MatInputModule, MatSortModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,7 +52,13 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
     NgbModule,
     FormsModule,
     CustomFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatSortModule,
+    BrowserAnimationsModule
     // RouterModule.forRoot([
     //   { path: '', component: HomeComponent },
     //   { path: 'products', component: ProductsComponent },
