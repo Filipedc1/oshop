@@ -1,4 +1,7 @@
+import { ICartItem } from './icartitem';
+
 export interface ICart { 
     shoppingCartId: number;
-    dateCreated: Date;
+    dateCreatedUtc: string;
+    shoppingCartItems: ICartItem[]
 }

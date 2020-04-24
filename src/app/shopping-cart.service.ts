@@ -22,11 +22,12 @@ export class ShoppingCartService {
     return this._http.post(this._baseUrl, cart);
   }
 
-  private getCart(cartId: string) {
-    return this._http.get(`${this._baseUrl}/${cartId}`);
+  public async getCart() {
+    let cartId = await this.getOrCreateCartId();
+    return this._http.get<ICart>(`${this._baseUrl}/${cartId}`);
   }
 
-  private async getOrCreateCartId() {
+  private async getOrCreateCartId() : Promise<string> {
     let cartId = localStorage.getItem('cartId');
     if (cartId) return cartId;
 
@@ -42,35 +43,34 @@ export class ShoppingCartService {
     let item$ = this.getProductFromCart(cartId, product.productId);
 
     item$.pipe(take(1)).subscribe(async item => {
-      console.log('IN');
-      if (item) await this.updateProductQuantity(cartId, product);
-      else {
-        await this.addItemToCart(product, cartId);
-      }
+      if (item) 
+        await this.updateProductQuantity(cartId, product).toPromise();
+      else 
+        await this.addItemToCart(product, cartId).toPromise();
     });
   }
 
-  private async addItemToCart(product: IProduct, cartId) {
+  private addItemToCart(product: IProduct, cartId) {
     console.log('ADD ITEM');
+
     var item = {
       productId: product.productId,
       quantity: 1,
       shoppingCartId: cartId
     };
 
-    await this._http.post(`${this._baseUrl}/additemtocart/${cartId}`, item).toPromise();
-    //return this._http.post(`${this._baseUrl}/additemtocart`, item);
+    return this._http.post(`${this._baseUrl}/additemtocart/${cartId}`, item);
   }
 
-  private async updateProductQuantity(cartId, product: IProduct) {
+  private updateProductQuantity(cartId, product: IProduct) {
     console.log('UPDATE ITEM');
+
     var item = {
       productId: product.productId,
-      //quantity: 1,
       shoppingCartId: cartId
     };
 
-    await this._http.put(`${this._baseUrl}/updateitemquantity`, item).toPromise();
+    return this._http.put(`${this._baseUrl}/updateitemquantity`, item);
   }
 
   private getProductFromCart(cartId: string, productId: number) {
