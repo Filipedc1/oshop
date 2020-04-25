@@ -21,8 +21,27 @@ export class ProductCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  addToCart(product: IProduct) {
-    this._cartService.addToCart(product);
+  async addToCart() {
+    let item = this.getProductFromCart();
+
+    if (item) {
+      this._cartService.updateItemInCart(this.product);
+      item.quantity = item.quantity + 1;
+    }
+    else  {
+      let newCartItem = await this._cartService.addToCart(this.product);
+      this.shoppingCart.shoppingCartItems.push(newCartItem);
+    }
+  }
+
+  removeFromCart() {
+    let item = this.getProductFromCart();
+    this._cartService.removeFromCart(this.product);
+    item.quantity = item.quantity - 1;
+  }
+
+  private getProductFromCart() {
+    return this.shoppingCart.shoppingCartItems.find(x => x.productId === this.product.productId);
   }
 
   getQuantity() {
