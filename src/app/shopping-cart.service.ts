@@ -2,9 +2,10 @@ import { ICartItem } from './interfaces/icartitem';
 import { IProduct } from './interfaces/iproduct';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ICart } from './interfaces/icart';
 import * as moment from 'moment';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
+import { Cart } from './models/cart';
+import { CartItem } from './models/cartitem';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class ShoppingCartService {
 
   public async getCart() {
     let cartId = await this.getOrCreateCartId();
-    return this._http.get<ICart>(`${this._baseUrl}/${cartId}`);
+    return this._http.get<Cart>(`${this._baseUrl}/${cartId}`)
+      .pipe(map(x => new Cart(x)));
   }
 
   private async getOrCreateCartId() : Promise<string> {
@@ -43,10 +45,15 @@ export class ShoppingCartService {
     console.log('ADD ITEM');
     let cartId = await this.getOrCreateCartId();
 
-    var item: ICartItem = {
+    var item: CartItem = {
       productId: product.productId,
+      productName: product.name,
+      price: product.price,
       quantity: 1,
-      shoppingCartId: Number(cartId)
+      imageUrl: product.imageUrl,
+      categoryId: product.categoryId,
+      shoppingCartId: Number(cartId),
+      _totalPrice: 0
     };
 
     this._http.post(`${this._baseUrl}/additemtocart/${cartId}`, item).toPromise();
@@ -104,8 +111,12 @@ export class ShoppingCartService {
 
     var item: ICartItem = {
       productId: product.productId,
+      productName: product.name,
+      price: product.price,
       quantity: quantity,
-      shoppingCartId: cartId
+      imageUrl: product.imageUrl,
+      categoryId: product.categoryId,
+      shoppingCartId: Number(cartId)
     };
 
     this._http.put(`${this._baseUrl}/updateitemquantity`, item).toPromise();

@@ -1,9 +1,9 @@
-import { ICartItem } from './../interfaces/icartitem';
+import { CartItem } from './../models/cartitem';
 import { ShoppingCartService } from './../shopping-cart.service';
 import { IProduct } from './../interfaces/iproduct';
 import { Component, OnInit, Input } from '@angular/core';
 import { filter, find } from 'rxjs/operators';
-import { ICart } from '../interfaces/icart';
+import { Cart } from '../models/cart';
 
 @Component({
   selector: 'app-product-card',
@@ -14,7 +14,7 @@ export class ProductCardComponent implements OnInit {
 
   @Input('product') product: IProduct;
   @Input('show-actions') showActions = true;
-  @Input('shopping-cart') shoppingCart: ICart;
+  @Input('shopping-cart') shoppingCart: Cart;
   
   constructor(private _cartService: ShoppingCartService) { }
 

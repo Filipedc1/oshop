@@ -1,4 +1,4 @@
-import { ICart } from './../interfaces/icart';
+import { Cart } from './../models/cart';
 import { ShoppingCartService } from './../shopping-cart.service';
 import { IProduct } from './../interfaces/iproduct';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -16,7 +16,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   products: IProduct[] = [];
   filteredProducts: IProduct[] = [];
   selectedCategory;
-  cart: ICart;
+  cart: Cart;
   subscription: Subscription;
 
   constructor(
