@@ -1,19 +1,15 @@
-import { CartItem } from './../models/cartitem';
-import { ShoppingCartService } from './../shopping-cart.service';
-import { IProduct } from './../interfaces/iproduct';
 import { Component, OnInit, Input } from '@angular/core';
-import { filter, find } from 'rxjs/operators';
+import { ShoppingCartService } from '../shopping-cart.service';
 import { Cart } from '../models/cart';
+import { IProduct } from '../interfaces/iproduct';
 
 @Component({
-  selector: 'app-product-card',
-  templateUrl: './product-card.component.html',
-  styleUrls: ['./product-card.component.css']
+  selector: 'app-product-quantity',
+  templateUrl: './product-quantity.component.html',
+  styleUrls: ['./product-quantity.component.css']
 })
-export class ProductCardComponent implements OnInit {
-
+export class ProductQuantityComponent implements OnInit {
   @Input('product') product: IProduct;
-  @Input('show-actions') showActions = true;
   @Input('shopping-cart') shoppingCart: Cart;
   
   constructor(private _cartService: ShoppingCartService) { }
@@ -32,6 +28,12 @@ export class ProductCardComponent implements OnInit {
       let newCartItem = await this._cartService.addToCart(this.product);
       this.shoppingCart.shoppingCartItems.push(newCartItem);
     }
+  }
+
+  removeFromCart() {
+    let item = this.getProductFromCart();
+    this._cartService.removeFromCart(this.product);
+    item.quantity = item.quantity - 1;
   }
 
   private getProductFromCart() {

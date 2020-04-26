@@ -1,3 +1,4 @@
+import { IProduct } from './../interfaces/iproduct';
 import { ICartItem } from '../interfaces/icartitem';
 import { CartItem } from './cartitem';
 
@@ -23,12 +24,16 @@ export class Cart {
         //console.log('COOUNTTTT'); console.log(count);
         return count;
     }
-
     
     get totalPrice() {
         let sum = 0;
         for (let item of this.shoppingCartItems)
             sum += item._totalPrice;
         return sum;
+    }
+
+    getQuantity(product: IProduct) {
+        let item = this.shoppingCartItems.find(x => x.productId === product.productId);
+        return item ? item.quantity : 0;
     }
 }

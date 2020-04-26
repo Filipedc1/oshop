@@ -1,0 +1,13 @@
+<div class="row no-gutters">
+    <div class="col-2">
+        <button (click)="removeFromCart()" class="btn btn-secondary btn-block">-</button>
+    </div>
+    <div class="col text-center">
+        <!-- {{ getQuantity() }} doesnt update automatically? seems like issue might be in the parent: products component
+        this method gets called every time we add new product so the issue cant be in this component.-->
+        {{ shoppingCart.getQuantity(product) }}
+    </div>
+    <div class="col-2">
+        <button (click)="addToCart()" class="btn btn-secondary btn-block">+</button>
+    </div>
+</div>
