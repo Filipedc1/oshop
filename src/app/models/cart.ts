@@ -10,18 +10,15 @@ export class Cart {
     constructor(c: Cart) {
         this.shoppingCartId = c.shoppingCartId;
         this.dateCreatedUtc = c.dateCreatedUtc;
-        //this.shoppingCartItems = c.shoppingCartItems;
 
         for (let it of c.shoppingCartItems)
-            this.shoppingCartItems.push(new CartItem(it));
+            this.shoppingCartItems.push(new CartItem({...it}));
     }
 
     get totalItemsCount() {
         let count = 0;
         for (let item of this.shoppingCartItems)
             count += this.shoppingCartItems.find(x => x.productId === item.productId).quantity;
-
-        //console.log('COOUNTTTT'); console.log(count);
         return count;
     }
     

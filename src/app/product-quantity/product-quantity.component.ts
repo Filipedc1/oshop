@@ -1,3 +1,4 @@
+import { CartItem } from './../models/cartitem';
 import { Component, OnInit, Input } from '@angular/core';
 import { ShoppingCartService } from '../shopping-cart.service';
 import { Cart } from '../models/cart';
@@ -9,7 +10,7 @@ import { IProduct } from '../interfaces/iproduct';
   styleUrls: ['./product-quantity.component.css']
 })
 export class ProductQuantityComponent implements OnInit {
-  @Input('product') product: IProduct;
+  @Input('product') product: CartItem;
   @Input('shopping-cart') shoppingCart: Cart;
   
   constructor(private _cartService: ShoppingCartService) { }
@@ -25,8 +26,8 @@ export class ProductQuantityComponent implements OnInit {
       item.quantity = item.quantity + 1;
     }
     else  {
-      let newCartItem = await this._cartService.addToCart(this.product);
-      this.shoppingCart.shoppingCartItems.push(newCartItem);
+      await this._cartService.addToCart(this.product);
+      this.shoppingCart.shoppingCartItems.push(this.product);
     }
   }
 

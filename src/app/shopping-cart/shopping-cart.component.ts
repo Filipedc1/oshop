@@ -17,4 +17,9 @@ export class ShoppingCartComponent implements OnInit {
     this.cart$ = await this._cartService.getCart();
   }
 
+  // Need to manually refresh to see empty cart
+  clearCart() {
+    this._cartService.clearCart();
+  }
+
 }

@@ -15,19 +15,45 @@ export class ShoppingCartService {
 
   constructor(private _http: HttpClient) { }
 
-  private create() {
-    var cart = {
-      shoppingcartid: 0,
-      dateCreated: moment().format('LLL')
-    };
-
-    return this._http.post(this._baseUrl, cart);
-  }
-
   public async getCart() {
     let cartId = await this.getOrCreateCartId();
     return this._http.get<Cart>(`${this._baseUrl}/${cartId}`)
       .pipe(map(x => new Cart(x)));
+  }
+
+  public async clearCart() {
+    console.log('clear cart');
+    let cartId = await this.getOrCreateCartId();
+
+    this._http.get(`${this._baseUrl}/clearcart/${cartId}`).toPromise();
+    localStorage.removeItem('cartId');
+  }
+
+  public async addToCart(product: CartItem) {
+    console.log('Add ITEM');
+    let cartId = await this.getOrCreateCartId();
+
+    this._http.post(`${this._baseUrl}/additemtocart/${cartId}`, product).toPromise();
+  }
+
+  public async updateItemInCart(item: CartItem) {
+    let cartId = await this.getOrCreateCartId();
+    this.updateProductQuantity(cartId, item, 1);
+  }
+
+  public async removeFromCart(item: CartItem) {
+    let cartId = await this.getOrCreateCartId();
+    this.updateProductQuantity(cartId, item, -1);
+  }
+
+  // Private methods
+  private create() {
+    var cart = {
+      shoppingcartid: 0,
+      dateCreatedUtc: moment().format('LLL')
+    };
+
+    return this._http.post(this._baseUrl, cart);
   }
 
   private async getOrCreateCartId() : Promise<string> {
@@ -41,85 +67,13 @@ export class ShoppingCartService {
     return result['cartId'];
   }
 
-  public async addToCart(product: IProduct) {
-    console.log('ADD ITEM');
-    let cartId = await this.getOrCreateCartId();
-
-    var item: CartItem = {
-      productId: product.productId,
-      productName: product.name,
-      price: product.price,
-      quantity: 1,
-      imageUrl: product.imageUrl,
-      categoryId: product.categoryId,
-      shoppingCartId: Number(cartId),
-      _totalPrice: 0
-    };
-
-    this._http.post(`${this._baseUrl}/additemtocart/${cartId}`, item).toPromise();
-
-    return item;
-  }
-
-  public async updateItemInCart(product: IProduct) {
-    let cartId = await this.getOrCreateCartId();
-    this.updateProductQuantity(cartId, product, 1);
-  }
-
-  public async removeFromCart(product: IProduct) {
-    let cartId = await this.getOrCreateCartId();
-    this.updateProductQuantity(cartId, product, -1);
-  }
-
-  // public async addToCart(product: IProduct) {
-  //   this.addOrUpdate(product, 1); // no need to await since we are not returning back a value.
-  // }
-
-  // public async removeFromCart(product: IProduct) {
-  //   this.addOrUpdate(product, -1);
-  // }
-
-  // Dont need to get product from Cart (DB call) when we already have the
-  // cart items in our Cart on the component!
-
-  // private async addOrUpdate(product: IProduct, quantity?: number) {
-  //   let cartId = await this.getOrCreateCartId();
-  //   let item$ = this.getProductFromCart(cartId, product.productId);
-
-  //   item$.pipe(take(1)).subscribe(item => {
-  //     if (item) 
-  //       this.updateProductQuantity(cartId, product, quantity);
-  //     else 
-  //       this.addItemToCart(product, cartId);
-  //   });
-  // }
-
-  // private addItemToCart(product: IProduct, cartId) {
-  //   console.log('ADD ITEM');
-
-  //   var item: ICartItem = {
-  //     productId: product.productId,
-  //     quantity: 1,
-  //     shoppingCartId: cartId
-  //   };
-
-  //   this._http.post(`${this._baseUrl}/additemtocart/${cartId}`, item).toPromise();
-  // }
-
-  private updateProductQuantity(cartId, product: IProduct, quantity: number) {
+  private updateProductQuantity(cartId, item: CartItem, quantity: number) {
     console.log('UPDATE ITEM');
+    
+    let newItem: CartItem = new CartItem(item);
+    newItem.quantity = quantity;
 
-    var item: ICartItem = {
-      productId: product.productId,
-      productName: product.name,
-      price: product.price,
-      quantity: quantity,
-      imageUrl: product.imageUrl,
-      categoryId: product.categoryId,
-      shoppingCartId: Number(cartId)
-    };
-
-    this._http.put(`${this._baseUrl}/updateitemquantity`, item).toPromise();
+    this._http.put(`${this._baseUrl}/updateitemquantity`, newItem).toPromise();
   }
 
   private getProductFromCart(cartId: string, productId: number) {
