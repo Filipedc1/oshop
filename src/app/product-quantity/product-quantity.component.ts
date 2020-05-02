@@ -34,7 +34,13 @@ export class ProductQuantityComponent implements OnInit {
   removeFromCart() {
     let item = this.getProductFromCart();
     this._cartService.removeFromCart(this.product);
-    item.quantity = item.quantity - 1;
+    if (item.quantity === 0) {
+      let index = this.shoppingCart.shoppingCartItems.findIndex(x => x.productId == item.productId);
+      this.shoppingCart.shoppingCartItems.splice(index, 1); // doesnt update UI
+    }
+    else {
+      item.quantity = item.quantity - 1;
+    }
   }
 
   private getProductFromCart() {

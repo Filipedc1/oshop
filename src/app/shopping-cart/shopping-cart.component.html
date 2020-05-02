@@ -5,25 +5,30 @@
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
+                <th class="text-center" style="width: 230px;">Quantity</th>
+                <th class="text-right" style="width: 200px;">Price</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of cart.shoppingCartItems">
+                <td>
+                    <div [style.backgroundImage]="'url(' + item.imageUrl + ')'" class="thumbnail"></div>
+                </td>
                 <td>{{item.productName}}</td>
                 <td>
                     <app-product-quantity [product]="item" [shopping-cart]="cart"></app-product-quantity>
                 </td>
-                <td>{{item.totalPrice | currency:'USD':true}}</td>
+                <td class="text-right">{{item.totalPrice | currency:'USD':true}}</td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <th></th>
-                <th>Total</th>
-                <th>{{ cart.totalPrice | currency:'USD':true }}</th>
+                <th></th>
+                <th class="text-right">Total</th>
+                <th class="text-right">{{ cart.totalPrice | currency:'USD':true }}</th>
             </tr>
         </tfoot>
     </table>
