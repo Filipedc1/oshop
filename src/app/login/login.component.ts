@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { UserService } from 'shared/services/user.service';
 
 import * as jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';

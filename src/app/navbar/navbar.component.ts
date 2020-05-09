@@ -1,8 +1,8 @@
-import { Cart } from './../models/cart';
-import { ShoppingCartService } from './../shopping-cart.service';
+import { Cart } from 'shared/models/cart';
+import { ShoppingCartService } from 'shared/services/shopping-cart.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
-import { UserService } from '../services/user.service';
+import { UserService } from 'shared/services/user.service';
 import { Subscription, Observable } from 'rxjs';
 
 @Component({
