@@ -23,6 +23,7 @@
     "@angular/router": "~8.2.14",
     "@ng-bootstrap/ng-bootstrap": "^5.3.0",
     "bootstrap": "^4.4.1",
+    "font-awesome": "^4.7.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "ng2-validation": "^4.2.0",
