@@ -1,3 +1,4 @@
+import { CustomFormsModule } from 'ng2-validation';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
@@ -9,6 +10,10 @@ import { OrderService } from './services/order.service';
 import { ProductService } from './services/product.service';
 import { ShoppingCartService } from './services/shopping-cart.service';
 import { UserService } from './services/user.service';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule, MatPaginatorModule } from '@angular/material';
+import { AppRoutingModule } from 'app/app-routing.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -18,11 +23,24 @@ import { UserService } from './services/user.service';
     ProductQuantityComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    CustomFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    AppRoutingModule,
+    NgbModule
   ],
   exports: [
     ProductCardComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    FormsModule,
+    CustomFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    AppRoutingModule,
+    NgbModule,
+    CommonModule
   ]
   // providers: [
   //   UserService,

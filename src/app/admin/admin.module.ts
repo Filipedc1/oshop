@@ -19,11 +19,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     ProductFormComponent
   ],
   imports: [
-    CommonModule,
-    FormsModule,
-    MatTableModule,
     AdminRoutingModule,
-    MatPaginatorModule,
     SharedModule
   ]
 })

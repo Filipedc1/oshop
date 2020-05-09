@@ -26,10 +26,7 @@ import { AppRoutingModule } from 'app/app-routing.module';
     ShippingFormComponent
   ],
   imports: [
-    SharedModule,
-    CommonModule,
-    FormsModule,
-    AppRoutingModule
+    SharedModule
   ]
 })
 export class ShoppingModule { }
