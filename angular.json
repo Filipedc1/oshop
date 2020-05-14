@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "oshop"
+  "defaultProject": "oshop",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

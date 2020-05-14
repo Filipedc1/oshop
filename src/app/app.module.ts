@@ -1,3 +1,5 @@
+import { CartEffect } from './store/effects/cart.effects';
+import { ProductEffect } from './store/effects/product.effects';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatInputModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule } from '@angular/material';
@@ -14,6 +16,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SharedModule } from './shared/shared.module';
 import { ShoppingRoutingModule } from './shopping/shopping-routing.module';
 import { ShoppingModule } from './shopping/shopping.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store/reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -24,6 +31,9 @@ import { ShoppingModule } from './shopping/shopping.module';
   ],
   imports: [
     BrowserModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreDevtoolsModule.instrument({ maxAge: 5 }),
+    EffectsModule.forRoot([ProductEffect, CartEffect]),
     SharedModule,
     AdminModule,
     ShoppingModule,
