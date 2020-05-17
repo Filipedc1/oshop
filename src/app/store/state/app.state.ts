@@ -5,14 +5,14 @@ import { CartState, initialCartState } from './cart.state';
 
 
 export interface AppState {
-  //currentUser: UserState;
+  currentUser: UserState;
   products: ProductState;
-//   order: OrderState;
+  //order: OrderState;
    cart: CartState;
 }
 
 export const initialAppState : AppState = {
-  //currentUser: initialUserState,
+  currentUser: initialUserState,
   products: initialProductState,
   //order: initialOrderState,
   cart: initialCartState

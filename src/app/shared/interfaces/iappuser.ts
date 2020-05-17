@@ -1,5 +1,4 @@
 export interface IAppUser { 
-    name: string;
-    email: string;
+    username: string;
     isAdmin: boolean;
 }

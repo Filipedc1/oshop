@@ -1,3 +1,4 @@
+import { UserEffect } from './store/effects/user.effects';
 import { CartEffect } from './store/effects/cart.effects';
 import { ProductEffect } from './store/effects/product.effects';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,7 +34,7 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 5 }),
-    EffectsModule.forRoot([ProductEffect, CartEffect]),
+    EffectsModule.forRoot([ProductEffect, CartEffect, UserEffect]),
     SharedModule,
     AdminModule,
     ShoppingModule,

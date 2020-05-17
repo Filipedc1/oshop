@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from 'app/store/state/app.state';
 import { UserService } from 'shared/services/user.service';
 
-import * as jwt_decode from 'jwt-decode';
-import { Router } from '@angular/router';
+import * as UserActions from '../store/actions/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,7 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean;
 
   constructor(
+    private _store: Store<AppState>,
     public _userService: UserService, 
     private _router: Router) { }
 
@@ -21,18 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(credentials) {
-    this._userService.login(credentials)
-      .subscribe(result => {
-        console.log('login success');
-        this._userService.finishLogin(result['token']);
-        this._router.navigate(['/']);
-      },
-      err => { 
-        console.log('ERROR');
-        console.log(err);
-        this.invalidLogin = true;
-      }
-    );
+    this._store.dispatch(new UserActions.Login(credentials));
   }
 
 }

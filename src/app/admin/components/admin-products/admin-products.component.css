@@ -1,3 +1,8 @@
-table{
+table {
     width: 100%;
+}
+
+.btn-primary {
+    background-color: #c1d62e !important;
+    border-color: #c1d62e !important;
 }
