@@ -22,6 +22,11 @@ import { reducers, metaReducers } from './store/reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { JwtModule  } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -42,6 +47,12 @@ import { EffectsModule } from '@ngrx/effects';
     AdminRoutingModule,
     ShoppingRoutingModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:44356', 'https://localhost:44356', 'localhost'],
+      },
+    }),
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatInputModule,

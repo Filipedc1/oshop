@@ -43,7 +43,7 @@ export class UserEffect {
     checkLogin$: Observable<any> = this.actions$.pipe(
         ofType<UserActions.CheckLogin>(UserActions.UserActionTypes.CHECK_LOGIN),
         map(() => {
-            let user = this.userService.isUserLoggedIn();
+            let user = this.userService.getLoggedInUser();
             if (user) {
                 return new UserActions.LoginSuccess(user)
             }

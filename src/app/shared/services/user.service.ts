@@ -5,41 +5,60 @@ import { Observable } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import { AppUser } from 'shared/models/appuser';
 
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private _loginUrl = 'https://localhost:44356/api/user/login';
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, public _jwtHelper: JwtHelperService) { }
 
-  login(credentials) {
+  login(credentials) : Observable<IAppUser> {
       return this._http.post<IAppUser>(this._loginUrl, credentials);
   }
 
-  isUserLoggedIn() {
-    let token = localStorage.getItem('token'); 
+  logout() : void {
+    localStorage.removeItem('token');
+  }
+
+  getLoggedInUser() : AppUser {
+    let isAuthenticated = this.isAuthenticated();
+    if (!isAuthenticated) {
+      return null;
+    }
+
+    let token = this.getToken();  
     let user: AppUser = null;
 
-    if (token) {
-      var decodedToken = jwt_decode(token);
-      user = new AppUser();
-      user.username = decodedToken['username'];
-      user.isAdmin = decodedToken['role'] == 'Admin' ? true : false;
-      user.isLoggedIn = true;
-      user.token = token;
-    }
+    var decodedToken = this._jwtHelper.decodeToken(token);
+    user = new AppUser();
+    user.username = decodedToken['username'];
+    user.isAdmin = decodedToken['role'] == 'Admin' ? true : false;
+    user.isLoggedIn = true;
+    user.token = token;
 
     return user;
   }
 
-  // logout() {
-  //   localStorage.removeItem('token');
-  //   this.userName = null;
-  //   this.isLoggedIn = false;
-  // }
+  public getToken(): string {
+    return localStorage.getItem('token');
+  }
 
-    //   register(n: number) {
-    //     return this._http.get('http://localhost:5000/api/order/bycustomer/' + n);
-    //   }
+  public isAuthenticated(): boolean {
+    let token = this.getToken(); 
+
+    if (token) {
+      let isExpired = this._jwtHelper.isTokenExpired(token);
+      if (isExpired) {
+        this.logout();
+        return false;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
 }
